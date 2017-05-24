@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta property="qc:admins" content="465267610762567726375">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>汽配龙 页面js测试 </title>
+
+    <link rel="dns-prefetch" href="//s.w.org">
+    <link rel="shortcut icon" href="http://www.runoob.com/favicon.ico" mce_href="http://www.runoob.com/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="http://www.runoob.com/wp-content/themes/runoob/style.css?v=1.02" type="text/css" media="all">
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/fontawesome/4.2.0/css/font-awesome.min.css" media="all">
+    <script src="http://cdn.static.runoob.com/libs/jquery/1.8.1/jquery.min.js"></script>
+    <meta name="apple-mobile-web-app-title" content="测试">
+    <link rel="stylesheet" type="text/css" href="http://www.runoob.com/wp-content/themes/runoob/assets/js/hl/prettify.css">
+
+</head>
+
+<body>
+
+
+
+
+    <a href="demo1.html" class="b3"></a>
+
+
+    <div class="row">
+
+        <div class="col middle-column-home">
+            <div class="codelist codelist-mobile cate1">
+
+                <h2><i class="fa fa-list"></i> http2app js-页面跳转 type 0 ~ 8</h2>
+
+
+                <a class="item-top http2app0">
+                    <h4> 0. 空操作 </h4>
+                </a>
+                <a class="item-top http2app1">
+                    <h4> 1. 商品详情 </h4>
+                </a>
+                <a class="item-top http2app2">
+                    <h4> 2. 商品详情 </h4>
+                </a>
+                <a class="item-top http2app3">
+                    <h4> 3. 品牌 </h4>
+                </a>
+                <a class="item-top http2app4">
+                    <h4> 4. 分类 </h4>
+                </a>
+                <a class="item-top http2app4">
+                    <h4> 4. 分类301 </h4>
+                </a>
+                <a class="item-top http2app5">
+                    <h4> 5. 商家 </h4>
+                </a>
+                <a class="item-top http2app6">
+                    <h4> 6. 关键字搜索 </h4>
+                </a>
+                <a class="item-top http2app6">
+                    <h4> 6. 固特异 </h4>
+                </a>
+                <a class="item-top http2app7">
+                    <h4> 7. URL </h4>
+                </a>
+                <a class="item-top http2app8">
+                    <h4> 8. 跳登录页面 </h4>
+                </a>
+                <a class="item-top http2app101">
+                    <h4> 101 商品列表 </h4>
+                </a>
+
+                <a class="item-top http2app9">
+                    <h4> 9.uid </h4>
+                </a>
+
+            </div>
+            <div class="codelist codelist-mobile cate2">
+
+                <h2><i class="fa fa-list"></i> js-数据交互</h2>
+
+
+                <a class="item-top jsdata1">
+                    <h4> 1.获取信息 </h4>
+
+                </a>
+                <a class="item-top jsdata2">
+                    <h4> 2.修改标题 </h4>
+                </a>
+
+
+
+            </div>
+            <div class="codelist codelist-mobile cate3">
+
+                <h2><i class="fa fa-list"></i> js-其他动作</h2>
+
+
+
+                <a class="item-top http2app">
+                    <h4> 0. html2app </h4>
+                </a>
+                <a class="item-top htmlpop">
+                    <h4> 1.退回app </h4>
+                </a>
+                <a class="item-top js3action2">
+                    <h4> 2.获取信息 </h4>
+                </a>
+                <a class="item-top js3action3">
+                    <h4> 2.获取信息3 </h4>
+                </a>
+                <a class="item-top js3action4">
+                    <h4> 3.多js操作 </h4>
+                </a>
+                <a class="item-top js3action5">
+                    <h4> 4.一个弹出 </h4>
+                </a>
+                <a class="item-top js3action6">
+                    <h4> 5.发到app </h4>
+                </a>
+                <a class="item-top js3action7">
+                    <h4> 6.user Agent </h4>
+                </a>
+
+            </div>
+            <div class="codelist codelist-mobile cate3">
+
+                <h2><i class="fa fa-list"></i> js-接口测试-htmlapi</h2>
+
+
+<div class = 'outlog'></div>
+
+                <a class="item-top js4action0">
+                    <h4> GetProductsList </h4>
+                </a>
+
+                <a class="item-top js4action1">
+                    <h4> alert </h4>
+                </a>
+
+            </div>
+
+
+        </div>
+    </div>
+</body>
+
+</html>
+
+
+<script>
+var headerTitle = $(".bar .title").text();
+var IsRemoveShopCart = (headerTitle == '限时抢购') ? "1" : "0";
+var version = request("version");
+
+$(".js3action2").click(function(){
+
+    funWebViewBridge("htmlgetinfo",function(message){alert( '数据返回:'+ message);})
+
+
+
+})
+$(".js3action3").click(function(){
+
+})
+
+$(".js3action4").click(function(){
+funWebViewBridge("js3action4",function(message){alert( '数据返回:'+ message);})
+})
+
+
+$(".js3action5").click(function(){
+ 
+funWebViewBridge("js3action5",function(message){alert('数据返回:'+ message);})
+ 
+ return;
+
+})
+
+function funWebViewBridge (jsstr,callback) {
+        if (WebViewBridge) {
+
+
+
+            WebViewBridge.send(jsstr);
+
+            WebViewBridge.onMessage = function (message) {
+                callback(message,jsstr)
+            };
+        }
+}
+
+$(".js3action6").click(function(){
+ 
+
+ WebViewBridge.send("js3action6");
+ return;
+
+})
+
+$(".js3action7").click(function(){
+ 
+ alert('js3action7:'+ navigator.userAgent)
+
+ return;
+
+})
+
+$(".js4action0").click(function(){
+
+        var dataObj = {
+        "actionID": "11111",
+        "actionMSG": "备注信息",
+        "Data":
+        [
+            {
+                "action": "htmlapi",
+                "data": {
+                        "h5apiname": "Product/GetProductsList", 
+                        "h5apicallback": "api_GetProductsList",
+                        "ver":"1.0",
+                        "userId":"fde8778b20fb4f66ae6ccf891b1f24eb",
+                        "attr":"",
+                        "min_price":"",
+                        "max_price":"",
+                        "pagesize":10,
+                        "page":1,
+                        "brand":"",
+                        "catalog":301,
+                        "keyword":"",
+                        "order_rule":1,
+                        "trader":"",
+                        "is_self":0,
+                        "is_group":0,
+                        "is_post":0,
+                        "modelType":1,
+                    }
+            }
+        ]
+    }
+    action_end3(dataObj);
+
+})
+
+$(".js4action1").click(function(){
+
+    let aaadic = {
+	"ErrorMsg" : "版本错误",
+	"Success" : 0,
+ }
+$(".outlog").append('ddddd')
+$(".outlog").append('</br>')
+    api_GetProductsList(aaadic);
+
+})
+
+function api_GetProductsList(data){
+
+   
+            // alert(JSON.stringify(data));
+    
+    $(".outlog").append(JSON.stringify(data))
+    $(".outlog").append('</br>')
+   
+}
+
+
+
+$(".http2app").click(function(){
+ alert('前面选择具体type');
+})
+
+
+$(".http2app0").click(function(){
+ alert('http2app0');
+
+})
+
+
+
+$(".http2app1").click(function(){
+ http2app1()
+})
+
+$(".http2app2").click(function(){
+ 
+ http2app2()
+})
+
+$(".http2app3").click(function(){
+ alert(3);
+})
+
+$(".http2app4").click(function(){
+ http2app4();
+})
+
+$(".http2app6").click(function(){
+ http2app6();
+})
+
+$(".http2app7").click(function(){
+ http2app7();
+})
+
+
+$(".http2app8").click(function(){
+GoAppLogin();
+})
+
+$(".http2app9").click(function(){
+http2app9();
+
+})
+
+
+$(".jsdata1").click(function(){
+http2app9();
+})
+
+
+$(".jsdata2").click(function(){
+htmltitle();
+})
+
+function testalert(tt){
+ 
+  alert (tt)
+
+  return '22'
+
+}
+
+function action_end(dataObj){
+        var data = JSON.stringify(dataObj);
+  
+    WebViewBridge.send(data);
+    WebViewBridge.onMessage = function (message) {
+        alert('数据返回:'+ message);
+    };
+}
+
+function action_end3(dataObj){
+
+    var data = JSON.stringify(dataObj);
+
+    
+    if (browser.versions.ios) {
+        var ifr = document.createElement('iframe');
+        ifr.src = "htmljs://loadUrl/action?data=" + data;
+        ifr.style.display = 'none';
+        document.body.appendChild(ifr);
+        window.setTimeout(function () {
+            document.body.removeChild(ifr);
+        }, 200);
+    } else {
+        javascript: window.android.action(data);
+    }
+
+  
+}
+
+
+
+function action_end2(dataObj){
+
+    var data = JSON.stringify(dataObj);
+    
+    if (browser.versions.ios) {
+        window.setTimeout(function () {
+            window.location.href = "htmljs://loadUrl/action?data=" + data;
+        }, 200);
+//         
+        //采用POST方式调用服务
+// 　　　　$.post('htmljs://loadUrl/action?data=',data);
+        
+    } else {
+        javascript: window.android.action(data);
+    }
+
+  
+}
+
+
+function setApprove() { //未认证调用app方法
+            if (browser.versions.ios) {
+                window.location.href = "neng://loadUrl/setApprove"
+            } else {
+                javascript: window.android.verifyuser();
+            }
+        };
+
+
+
+function http2app1(){
+    var dataObj = {
+        "actionID": "11111",
+        "actionMSG": "备注信息",
+        "Data":
+        [
+            {
+                "action": "html2app",
+                 "data": {"ContentType":1,"ImgUrl":"","Url":"","ProductID":"cb435cccc0594725a3b836b289ecbca2","UserProductID":"d9be9fddf4584c2a9ed14ec9dbb19e80","BrandID":"","BrandNmae":"","CategoryID":"","CategoryName":"","TraderID":"","TraderIDName":"","ContentKey":""}
+ 
+            }
+        ]
+    }
+ action_end(dataObj);
+}
+
+function http2app2(){
+    var dataObj = {
+        "actionID": "11111",
+        "actionMSG": "备注信息",
+        "Data":
+        [
+            {
+                "success": '0'/'1';
+                "action": "html2app",
+                "data": {"ContentType":2,"ImgUrl":"","Url":"","ProductID":"cb435cccc0594725a3b836b289ecbca2","UserProductID":"d9be9fddf4584c2a9ed14ec9dbb19e80","BrandID":"","BrandNmae":"","CategoryID":"","CategoryName":"","TraderID":"","TraderIDName":"","ContentKey":""}
+            }
+        ]
+    }
+ action_end(dataObj);
+}
+
+
+
+function http2app4(){
+    var dataObj = {
+        "actionID": "11111",
+        "actionMSG": "备注信息",
+        "Data":
+        [
+            {
+                "action": "html2app",
+                "data": {
+                    "ContentType": 4,
+                     "CategoryID": "301"
+                }
+            }
+        ]
+    }
+ action_end(dataObj);
+}
+
+
+function http2app6(){
+    var dataObj = {
+        "actionID": "11111",
+        "actionMSG": "备注信息",
+        "Data":
+        [
+            {
+                "action": "html2app",
+                "data": {
+                    "ContentType": 6,
+                     "ContentKey": "固特异"
+                }
+            }
+        ]
+    }
+ action_end(dataObj);
+}
+
+
+function http2app7(){
+    var dataObj = {
+        "actionID": "11111",
+        "actionMSG": "备注信息",
+        "Data":
+        [
+
+            var  aa = {
+                "success":'0'
+                "action": "html2app",
+                "data": {
+                    "ContentType": 7,
+                    "PositionMackTitle": "标题",
+                     "Url": "http://www.runoob.com/cprogramming/c-tutorial.html?"
+                }
+            }
+        ]
+    }
+ 	action_end(dataObj);
+}
+
+
+html2appcallback(aa)
+
+function http2app9(){
+    var dataObj = {
+        "Data":
+        [
+            {
+                "action": "htmlgetinfo9",
+                "data": "all"
+            }
+        ]
+    }
+ 	action_end(dataObj);
+}
+
+
+
+
+
+
+
+function htmltitle(){
+    var dataObj = {
+        "actionID": "11111",
+        "actionMSG": "备注信息",
+        "Data":
+        [
+            {
+                "action": "htmltitle",
+                "data": "就是个标题"
+            }
+        ]
+    }
+
+ action_end(dataObj);
+}
+
+
+
+
+function request(paras) {
+
+    var url = location.href;
+    var paraString = url.substring(url.indexOf("?") + 1, url.length).split("&");
+    var paraObj = {}
+    for (i = 0; j = paraString[i]; i++) {
+        paraObj[j.substring(0, j.indexOf("=")).toLowerCase()] = j.substring(j.indexOf("=") + 1, j.length);
+    }
+    var returnValue = paraObj[paras.toLowerCase()];
+    if (typeof (returnValue) == "undefined") {
+        return "";
+    } else {
+        return returnValue;
+    }
+}
+
+
+
+
+function setAppInfo() {
+   
+    var dataObj = {
+        "actionID": "11111",
+        "actionMSG": "备注信息",
+        "Data":
+        [
+            {
+                "action": "htmlgetinfo",
+                "data": "user"
+            },
+            {
+                "action": "htmltitle",
+                "data": headerTitle
+            },
+            {
+                "action": "htmlgetinfo",
+                "data": "all"
+            }, {
+                "action": "htmlheadershopcart",
+                "data": IsRemoveShopCart
+            }
+
+        ]
+    }
+
+
+ action_end(dataObj);
+}
+
+
+
+function GoAppLogin() {
+    var dataObj = {
+        "actionID": "11111",
+        "actionMSG": "备注信息",
+        "Data":
+        [
+            {
+                "action": "html2app",
+                "data": {
+                    "ContentType": 8,
+                    "ContentKey": "008"
+                }
+            }
+        ]
+    }
+
+    var data = JSON.stringify(dataObj);
+
+    if (browser.versions.ios) {
+        var ifr = document.createElement('iframe');
+        ifr.src = "htmljs://loadUrl/action?data=" + data;
+        ifr.style.display = 'none';
+        document.body.appendChild(ifr);
+        window.setTimeout(function () {
+            document.body.removeChild(ifr);
+        }, 2000);
+    } else {
+        javascript: window.android.action(data);
+    }
+}
+
+function setApprove() { //未认证调用app方法
+            if (browser.versions.ios) {
+                window.location.href = "neng://loadUrl/setApprove"
+            } else {
+                javascript: window.android.verifyuser();
+            }
+        };
+
+function GoOldAppLogin() {
+    var param = {
+        ContentType: '8',
+        ImgUrl: '',
+        Url: '',
+        ProductID: productID,
+        UserProductID: '',
+        BrandID: '',
+        BrandNmae: '',
+        CategoryID: '',
+        CategoryName: '',
+        TraderID: '',
+        TraderIDName: '',
+        ContentKey: '008'
+    }
+    var data = JSON.stringify(param);
+    if (browser.versions.ios) {
+        var ifr = document.createElement('iframe');
+        ifr.src = "htmljs://loadUrl/html2app?data=" + data;
+        ifr.style.display = 'none';
+        document.body.appendChild(ifr);
+        window.setTimeout(function () {
+            document.body.removeChild(ifr);
+        }, 2000);
+
+    } else {
+        javascript: window.android.html2app(data);
+    }
+}
+
+
+
+
+var obj = null;
+var objArr = [];
+var isApp = false;
+
+
+function htmlgetinfo(data) {
+    obj = data;
+
+    objArr.push(obj);
+    isApp = true;
+};
+
+var info = null;
+
+function showHtmlcallJava2() {
+    var dataObj = {
+        "actionID": "11111",
+        "actionMSG": "备注信息",
+        "Data":
+        [
+            {
+                "action": "htmlgetinfo",
+                "data": "user"
+            },
+            {
+                "action": "htmltitle",
+                "data": headerTitle
+            },
+            {
+                "action": "htmlgetinfo",
+                "data": "all"
+            }, {
+                "action": "htmlheadershopcart",
+                "data": IsRemoveShopCart
+            }
+
+        ]
+    }
+
+    var data = JSON.stringify(dataObj);
+    if (window.android != undefined) {
+        var str = window.android.action(data);
+
+        objArr = JSON.parse(str);
+        isApp = true;
+    }
+    
+}
+
+function htmlheaderback() {
+    Toast("返回");
+}
+
+
+//判断访问终端
+var browser = {
+    versions: function () {
+        var u = navigator.userAgent, app = navigator.appVersion;
+        return {
+            trident: u.indexOf('Trident') > -1, //IE内核
+            presto: u.indexOf('Presto') > -1, //opera内核
+            webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+            gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1,//火狐内核
+            mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+            ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+            android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+            iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器
+            iPad: u.indexOf('iPad') > -1, //是否iPad
+            webApp: u.indexOf('Safari') == -1, //是否web应该程序，没有头部与底部
+            weixin: u.indexOf('MicroMessenger') > -1, //是否微信
+            qq: u.match(/\sQQ/i) == " qq",//是否QQ
+            IosApp: u.indexOf('QPL/IOS')>-1,//是否汽配龙IOS app
+        };
+    }(),
+    language: (navigator.browserLanguage || navigator.language).toLowerCase()
+}
+
+
+var j = 0;
+function GetUrlInfo() {
+    var Url = window.location.href;
+
+    for (var i = 0; i < Url.length; i++) {
+        if (Url[i] == '&') {
+            j++;
+        }
+    }
+}
+
+
+
+if (j > 1) {
+    $(".bar").hide().siblings(".content").css("top", "0");
+    if (headerTitle != '限时抢购') {
+        if (version < 1.4 || version == '1.0.1') {
+            $.modal({
+                title: '',
+                text: '积分功能是汽配龙最新推出的会员福利，可在最新的APP版本上使用，请更新汽配龙',
+                buttons: [
+                  {
+                      text: '确定',
+                      onClick: function () {
+                          window.location.href = "/UploadApp/Index";
+                      }
+                  },
+                ]
+            })
+        }
+    }
+
+}
+
+
+
+
+
+
+</script>

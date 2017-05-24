@@ -1,0 +1,147 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name=viewport content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
+    <meta name=apple-mobile-web-app-title content=汽配龙>
+    <meta name=apple-mobile-web-app-capable content=yes>
+    <meta content="telephone=no" name=format-detection>
+
+    <style type="text/css">
+        body,
+        html,
+        #map {
+            height: 80%;
+            margin: 0px;
+        }
+
+        #myIcon {
+            background: #0d9bf2;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            box-shadow: 0 0 20px #0d9bf2;
+        }
+
+        #log {
+            height: 20%;
+            color: red;
+        }
+    </style>
+
+
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>地图</title>
+    <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css" />
+    <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=84742c3f99a5f02d31f5f08bb763cb1b"></script>
+    <script type='text/javascript' src='http://m.qipeilong.net/Scripts/Lib/zepto.min.js' charset='utf-8'></script>
+    <script type="text/javascript" src="http://cache.amap.com/lbs/static/addToolbar.js"></script>
+</head>
+
+<body>
+    <div id="container" tabindex="0"></div>
+    <div id="log"></div>
+
+
+    <script type="text/javascript">
+        if (WebViewBridge) {
+            WebViewBridge.onMessage = function (message) {
+                var item = JSON.parse(message);
+                if (item.action == 'htmlgetlocation') {
+
+                    htmlgetlocation(item.data)
+
+                } else if (item.action == 'app2js') {
+
+                    if (item.data == 'getCurrentPosition') {
+
+
+                        getCurrentPosition();
+
+                    }
+
+                } else {
+                    $("#log").append(message);
+                }
+
+
+            };
+        }
+
+
+        function htmlgetlocation(data) {
+
+
+            $("#log").append(data);
+
+        }
+
+        var map, geolocation;
+        //加载地图，调用浏览器定位服务
+        map = new AMap.Map('container', {
+            resizeEnable: true
+        });
+        map.plugin('AMap.Geolocation', function () {
+            geolocation = new AMap.Geolocation({
+                enableHighAccuracy: true,//是否使用高精度定位，默认:true
+                timeout: 10000,          //超过10秒后停止定位，默认：无穷大
+                buttonOffset: new AMap.Pixel(10, 20),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+                zoomToAccuracy: true,      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+                buttonPosition: 'RB'
+            });
+            map.addControl(geolocation);
+            geolocation.getCurrentPosition();
+            AMap.event.addListener(geolocation, 'complete', onComplete);//返回定位信息
+            // AMap.event.addListener(geolocation, 'error', onError);      //返回定位出错信息
+        });
+        //解析定位结果
+
+        function getCurrentPosition() {
+            geolocation.getCurrentPosition();
+        }
+
+
+        function onComplete(data) {
+            var dataObj = {
+                "actionID": "11111",
+                "actionMSG": "备注信息",
+                "Data":
+                [
+                    {
+                        "action": "htmllocation",
+                        "data": {
+                            longitude: data.position.getLng(),
+                            latitude: data.position.getLat()
+                        }
+                    }
+                ]
+            }
+            action_end3(dataObj);
+        }
+
+
+
+        function action_end3(dataObj) {
+
+            var data = JSON.stringify(dataObj);
+
+
+            if (browser.versions.ios) {
+                var ifr = document.createElement('iframe');
+                ifr.src = "htmljs://loadUrl/action?data=" + data;
+                ifr.style.display = 'none';
+                document.body.appendChild(ifr);
+                window.setTimeout(function () {
+                    document.body.removeChild(ifr);
+                }, 200);
+            } else {
+                javascript: window.android.action(data);
+            }
+
+
+        }
+    </script>
+</body>
+
+</html>
