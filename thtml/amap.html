@@ -1,19 +1,26 @@
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
     <title>基本地图展示</title>
-    <link rel="stylesheet" href="https://cache.amap.com/lbs/static/main1119.css"/>
+    <link rel="stylesheet" href="https://cache.amap.com/lbs/static/main1119.css" />
 
     <style type="text/css">
-        html, body {
+        html,
+        body {
             width: 100%;
             height: 80%;
         }
 
         #container {
             height: 110%;
+        }
+
+        #log {
+            height: 20%;
+            color: red;
         }
     </style>
     <!--<script src="https://cache.amap.com/lbs/static/es5.min.js"></script>-->
@@ -23,10 +30,52 @@
     <script src="https://webapi.amap.com/ui/1.0/main.js"></script>
 
 </head>
+
 <body>
-<div id="container"></div>
+    <div id="container" tabindex="0"></div>
+    <div id="log"></div>
+
+</body>
+
+</html>
+
+
+
 
 <script>
+    if (WebViewBridge) {
+        WebViewBridge.onMessage = function (message) {
+            $("#log").append(message);
+            var item = JSON.parse(message);
+            if (item.action == 'htmlgetlocation') {
+
+                htmlgetlocation(item.data)
+
+            } else if (item.action == 'app2js') {
+
+                if (item.data == 'getCurrentPosition') {
+
+
+
+                }
+
+            } else {
+                $("#log").append(message);
+            }
+
+
+        };
+    }
+
+
+    function htmlgetlocation(data) {
+
+
+        $("#log").append(data);
+
+    }
+
+
     AMapUI.loadUI(['misc/PositionPicker'], function (PositionPicker) {
 
         var map, geolocation, currentPosition;
@@ -54,8 +103,8 @@
                 enableHighAccuracy: true,//是否使用高精度定位，默认:true
                 timeout: 10000,          //超过10秒后停止定位，默认：无穷大
                 buttonOffset: new AMap.Pixel(10, 20),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
-                zoomToAccuracy: true,  
-                panToLocation:true,    //
+                zoomToAccuracy: true,
+                panToLocation: true,    //
                 showButton: false,
             });
             map.addControl(geolocation);
@@ -72,8 +121,8 @@
             iconStyle: { //自定义外观
                 //url: './app/resource/imgs/startCenterPoint.png',
                 url: 'https://webapi.amap.com/ui/1.0/assets/position-picker.png',
-//                ancher: [12, 37],
-//                size: [24, 37]
+                //                ancher: [12, 37],
+                //                size: [24, 37]
                 ancher: [16, 30],
                 size: [32, 32]
             }
@@ -82,12 +131,12 @@
         /**
          * 监听地图加载开启拖拽定位
          */
-        map.on('complete',function(){
+        map.on('complete', function () {
             positionPicker.start();
-            
+
         });
 
-        map.on('dragend',function(){
+        map.on('dragend', function () {
             console.log('拖动开始');
             // reSetMap();
             map.remove(markers);
@@ -114,25 +163,25 @@
         // }
 
         // map.on('mapmove',function(){
-            // console.log('移动地图');
-            // // map.clearMap();
+        // console.log('移动地图');
+        // // map.clearMap();
 
         // });
 
-        map.on('zoomstart',function(){
+        map.on('zoomstart', function () {
             console.log('放大开始');
         });
 
-        map.on('zoomend',function(){
+        map.on('zoomend', function () {
             console.log('放大结束');
             // reSetMap();
-             map.remove(markers);
+            map.remove(markers);
         });
 
-        geolocation.getCurrentPosition(function(status,result){
-            if (status ==='complete') {
+        geolocation.getCurrentPosition(function (status, result) {
+            if (status === 'complete') {
                 isFirstLocate = false;
-                currentPosition =  result.position;
+                currentPosition = result.position;
             }
         });
 
@@ -144,19 +193,19 @@
             // addMarker(positionResult.position.getLng(),positionResult.position.getLat())
             // search(positionResult.position);
             // 
-            map.plugin(["AMap.PlaceSearch"],function(){
+            map.plugin(["AMap.PlaceSearch"], function () {
                 var placeSearch = new AMap.PlaceSearch({
-                       pageSize: 20,
+                    pageSize: 20,
                 });
-                placeSearch.searchNearBy('超市|餐饮|银行|酒店',positionResult.position,3000);
-                AMap.event.addListener(placeSearch,'complete',function(result){
-                    if (result.info ==='OK') {
+                placeSearch.searchNearBy('超市|餐饮|银行|酒店', positionResult.position, 3000);
+                AMap.event.addListener(placeSearch, 'complete', function (result) {
+                    if (result.info === 'OK') {
                         console.log(result)
                         var pois = result.poiList.pois
-                        for(i in pois){
+                        for (i in pois) {
                             var loc = pois[i].location;
                             // console.log("lng:"+loc.lng+" lat:"+loc.lat)
-                            addMarker(loc.lng,loc.lat)
+                            addMarker(loc.lng, loc.lat)
                         }
                     }
                 })
@@ -168,33 +217,33 @@
          * 提供JS方法，让webview调用，添加marker
          */
         function addMarker(lng, lat) {
-//            //创建一个shape实例，比如水滴状
-//            var shape = new SvgMarker.Shape.WaterDrop({
-//                height: 60, //高度
-//                //width: **, //不指定时会维持默认的宽高比
-//                fillColor: 'orange', //填充色
-//                strokeWidth: 1, //描边宽度
-//                strokeColor: '#666' //描边颜色
-//            });
-//
-//            //利用该shape构建SvgMarker
-//            var marker = new SvgMarker(
-//                shape,
-//                {
-//                    showPositionPoint: false, //显示定位点
-//                    map: map,
-//                    position: [lng, lat],
-//                }
-//            );
+            //            //创建一个shape实例，比如水滴状
+            //            var shape = new SvgMarker.Shape.WaterDrop({
+            //                height: 60, //高度
+            //                //width: **, //不指定时会维持默认的宽高比
+            //                fillColor: 'orange', //填充色
+            //                strokeWidth: 1, //描边宽度
+            //                strokeColor: '#666' //描边颜色
+            //            });
+            //
+            //            //利用该shape构建SvgMarker
+            //            var marker = new SvgMarker(
+            //                shape,
+            //                {
+            //                    showPositionPoint: false, //显示定位点
+            //                    map: map,
+            //                    position: [lng, lat],
+            //                }
+            //            );
 
-           var marker = new AMap.Marker({
+            var marker = new AMap.Marker({
                 icon: new AMap.Icon({
                     // image:'https://webapi.amap.com/theme/v1.3/markers/b/mark_r.png',
                     // imageSize:new AMap.Size(50,50),
                 }),
                 position: [lng, lat],
 
-                offset:new AMap.Pixel(-16,-35),
+                offset: new AMap.Pixel(-16, -35),
 
             });
             marker.setMap(map);
@@ -202,29 +251,28 @@
             markers.push(marker);
 
             //监听 marker 的点击事件
-            marker.on('click', function() {
+            marker.on('click', function () {
                 // positionPicker.stop();
-                
+
                 isMarkerClick = true;
-                console.log("点击了marker："+marker.getPosition())
+                console.log("点击了marker：" + marker.getPosition())
                 //点击规划路线
-                map.plugin(["AMap.Walking"],function(){
-                    var walk = new AMap.Walking ({
-                       map:map,
+                map.plugin(["AMap.Walking"], function () {
+                    var walk = new AMap.Walking({
+                        map: map,
                     });
-                    
-                    walk.search(currentPosition,marker.getPosition());
-                    AMap.event.addListener(walk,'complete',function(result){
-                    	// var paths = result.routes[0].steps[0].path;
-                    	// for(var i in paths){
-                    	// 	console.log('lng'+paths[i].lng+' lat:'+paths[i].lat);
-                    	// }
+
+                    walk.search(currentPosition, marker.getPosition());
+                    AMap.event.addListener(walk, 'complete', function (result) {
+                        // var paths = result.routes[0].steps[0].path;
+                        // for(var i in paths){
+                        // 	console.log('lng'+paths[i].lng+' lat:'+paths[i].lat);
+                        // }
                     });
                 })
             })
 
         }
     });
+
 </script>
-</body>
-</html>
