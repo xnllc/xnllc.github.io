@@ -43,28 +43,35 @@
 
 
 <script>
-    if (WebViewBridge) {
-        WebViewBridge.onMessage = function (message) {
-            $("#log").append(message);
-            var item = JSON.parse(message);
-            if (item.action == 'htmlgetlocation') {
+    function test() {
+        $("#log").append(1111111);
+    }
+    function test2() {
+        $("#log").append(11111112);
 
-                htmlgetlocation(item.data)
+        if (WebViewBridge) {
+            WebViewBridge.onMessage = function (message) {
+                $("#log").append(message);
+                var item = JSON.parse(message);
+                if (item.action == 'htmlgetlocation') {
 
-            } else if (item.action == 'app2js') {
+                    htmlgetlocation(item.data)
 
-                if (item.data == 'getCurrentPosition') {
+                } else if (item.action == 'app2js') {
+
+                    if (item.data == 'getCurrentPosition') {
 
 
 
+                    }
+
+                } else {
+                    $("#log").append(message);
                 }
 
-            } else {
-                $("#log").append(message);
-            }
 
-
-        };
+            };
+        }
     }
 
 
