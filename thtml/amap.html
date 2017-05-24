@@ -35,6 +35,15 @@
     <div id="container" tabindex="0"></div>
     <div id="log"></div>
 
+    <div>
+        <a class="item-top http2app0">
+            <h4> 0. 空操作 </h4>
+        </a>
+        <a class="item-top http2app1">
+            <h4> 1. 商品详情 </h4>
+        </a>
+    </div>
+
 </body>
 
 </html>
@@ -43,6 +52,18 @@
 
 
 <script>
+    $(".http2app0").click(function () {
+        test()
+
+    })
+
+
+
+    $(".http2app1").click(function () {
+        test2()
+    })
+
+
     function test() {
         $("#log").append(1111111);
     }
