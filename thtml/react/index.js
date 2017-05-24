@@ -1,8 +1,4 @@
 
-var React = require('react');
-var ReactDOM = require('react-dom');
-
-
 var QuadraticCalculator = React.createClass({
   getInitialState: function() {
     return {
