@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
 
+	<link rel="shortcut icon" href="http://7xkdq4.com1.z0.glb.clouddn.com/IMG_2100.JPG" mce_href="http://7xkdq4.com1.z0.glb.clouddn.com/IMG_2100.JPG" type="image/x-icon" >
     <style type="text/css">
         body,
         html,
@@ -66,7 +67,7 @@
             margin: 3px;
         }
     </style>
-    <title>快速入门</title>
+    <title>hellomap数据交互测试</title>
 </head>
 
 <body>
@@ -274,11 +275,15 @@
             var ifr = document.createElement('iframe');
             ifr.src = "htmljs://loadUrl/action?data=" + data;
             ifr.style.display = 'none';
+             addLog('iOS手机');
             document.body.appendChild(ifr);
             window.setTimeout(function () {
                 document.body.removeChild(ifr);
             }, 200);
         } else if (browser.versions.android) {
+
+            addLog('android手机');
+
             javascript: window.android.action(data);
         } else {
             console.log('不是ios和android手机');
