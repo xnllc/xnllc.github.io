@@ -6,7 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
 
-	<link rel="shortcut icon" href="http://7xkdq4.com1.z0.glb.clouddn.com/IMG_2100.JPG" mce_href="http://7xkdq4.com1.z0.glb.clouddn.com/IMG_2100.JPG" type="image/x-icon" >
+    <link rel="shortcut icon" href="http://7xkdq4.com1.z0.glb.clouddn.com/IMG_2100.JPG" mce_href="http://7xkdq4.com1.z0.glb.clouddn.com/IMG_2100.JPG"
+        type="image/x-icon">
     <style type="text/css">
         body,
         html,
@@ -25,7 +26,7 @@
             margin: 10px auto;
             padding: 6px;
             font-family: "Microsoft Yahei", "微软雅黑", "Pinghei";
-            font-size: 14px;
+            font-size: 9px;
         }
 
         #myPageTop label {
@@ -35,7 +36,7 @@
         }
 
         #myPageTop input {
-            width: 170px;
+            width: 80px;
         }
 
         #myPageTop .column2 {
@@ -48,7 +49,7 @@
 
         .info-title {
             color: white;
-            font-size: 14px;
+            font-size: 9px;
             background-color: rgba(0, 155, 255, 0.8);
             line-height: 26px;
             padding: 0px 0 0 6px;
@@ -185,6 +186,7 @@
     // 添加log信息
     function addLog(slog) {
         if (slog) {
+            console.log(slog);
             x = document.getElementById("l")
             x.innerHTML += "\n";
             x.innerHTML += slog;
@@ -261,11 +263,28 @@
                 }
             ]
         }
-        action_end3(dataObj);
+        action_end(dataObj);
     }
 
 
 
+    function action_end(dataObj) {
+        var data = JSON.stringify(dataObj);
+
+        if (WebViewBridge) {
+            WebViewBridge.send(data);
+            WebViewBridge.onMessage = function (message) {
+                alert('数据返回:' + message);
+            };
+        } else {
+
+            addLog('不是ios和android手机');
+            addLog(data);
+        }
+
+    }
+
+    // 老版本
     function action_end3(dataObj) {
 
         var data = JSON.stringify(dataObj);
@@ -275,7 +294,7 @@
             var ifr = document.createElement('iframe');
             ifr.src = "htmljs://loadUrl/action?data=" + data;
             ifr.style.display = 'none';
-             addLog('iOS手机');
+            addLog('iOS手机');
             document.body.appendChild(ifr);
             window.setTimeout(function () {
                 document.body.removeChild(ifr);
