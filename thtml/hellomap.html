@@ -282,12 +282,7 @@
         action_end(dataObj);
     }
 
-    WebViewBridge.onMessage = function (message) {
-        // alert('数据返回:' + message);
-        addLog('接收到的信息：\n\r');
-        addLog(message);
 
-    };
 
     function action_end(dataObj) {
         var data = JSON.stringify(dataObj);
@@ -296,6 +291,11 @@
             WebViewBridge.send(data);
             addLog('发送的信息：\n\r');
             addLog(data);
+
+            WebViewBridge.onMessage = function (message) {
+                addLog('接收到的信息：\n\r');
+                addLog(message);
+            };
 
         } else {
 
@@ -332,5 +332,11 @@
         }
 
     }
+
+    var dataObj = {
+        "actionID": "0000",
+        "actionMSG":new Date().toLocaleTimeString(),
+    }
+    action_end(dataObj)
 
 </script>
