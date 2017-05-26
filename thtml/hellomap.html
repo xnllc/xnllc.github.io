@@ -34,10 +34,9 @@
             color: #666666;
             font-weight: normal;
         }
-
-        /*#myPageTop input {
-            width: 180px;
-        }*/
+        #myPageTop input {
+            width: 80%;
+        }
 
         #myPageTop .column2 {
             padding-left: 2px;
@@ -45,6 +44,7 @@
 
         #log {
             color: red;
+            font-size: 9px;
         }
 
         .info-title {
@@ -86,6 +86,13 @@
 
                 <td class="column2">
                     <input type="text" readonly="true" id="lnglat2">
+
+                </td>
+            </tr>
+            <tr>
+
+                <td class="column2">
+
                     <input type="text" readonly="true" id="lnglat">
                 </td>
             </tr>
@@ -164,8 +171,9 @@
 
 
 
+    var map, geolocation;
 
-    var map = new AMap.Map('container', {
+    map = new AMap.Map('container', {
         resizeEnable: true,
         zoom: 10,
         center: [116.480983, 40.0958]
@@ -187,6 +195,20 @@
         map.addControl(toolBar);
         map.addControl(scale);
     })
+
+    map.plugin('AMap.Geolocation', function () {
+        geolocation = new AMap.Geolocation({
+            enableHighAccuracy: true,//是否使用高精度定位，默认:true
+            timeout: 10000,          //超过10秒后停止定位，默认：无穷大
+            buttonOffset: new AMap.Pixel(10, 20),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+            zoomToAccuracy: true,      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+            buttonPosition: 'RB'
+        });
+        map.addControl(geolocation);
+        geolocation.getCurrentPosition();
+        AMap.event.addListener(geolocation, 'complete', onComplete_geolocation);//返回定位信息
+        // AMap.event.addListener(geolocation, 'error', onError);      //返回定位出错信息
+    });
 
 
 
@@ -212,24 +234,29 @@
     var clickEventListener = map.on('click', function (e) {
         console.log(e);
         var strloaction = e.lnglat.getLng() + ',' + e.lnglat.getLat()
-        document.getElementById("lnglat2").value = "获取到的地址"
+        document.getElementById("lnglat2").value = "点击获取地址"
         document.getElementById("lnglat").value = strloaction
 
         addLog(strloaction);
-        onComplete(e);
+
+        let loca = {}
+        loca.lng = e.lnglat.getLng()
+        loca.lat = e.lnglat.getLat()
+
+        onComplete(loca);
 
     });
-    var auto = new AMap.Autocomplete({
-        input: "tipinput"
-    });
-    AMap.event.addListener(auto, "select", select); //注册监听，当选中某条记录时会触发
-    function select(e) {
-        if (e.poi && e.poi.location) {
-            map.setZoom(15);
-            map.setCenter(e.poi.location);
+    // var auto = new AMap.Autocomplete({
+    //     input: "tipinput"
+    // });
+    // AMap.event.addListener(auto, "select", select); //注册监听，当选中某条记录时会触发
+    // function select(e) {
+    //     if (e.poi && e.poi.location) {
+    //         map.setZoom(15);
+    //         map.setCenter(e.poi.location);
 
-        }
-    }
+    //     }
+    // }
 
 
 
@@ -263,7 +290,25 @@
     }
 
 
+    function onComplete_geolocation(e) {
+
+
+        console.log(e);
+        var strloaction = e.position.getLng() + ',' + e.position.getLat()
+        document.getElementById("lnglat2").value = e.formattedAddress
+        document.getElementById("lnglat").value = strloaction
+        addLog(strloaction);
+
+        let loca = {}
+        loca.lng = e.position.getLng()
+        loca.lat = e.position.getLat()
+
+        onComplete(loca);
+
+    }
     function onComplete(data) {
+
+
         var dataObj = {
             "actionID": "11111",
             "actionMSG": "备注信息2017-05-25",
@@ -272,8 +317,8 @@
                 {
                     "action": "htmllocation",
                     "data": {
-                        longitude: data.lnglat.getLng(),
-                        latitude: data.lnglat.getLat()
+                        longitude: data.lng,
+                        latitude: data.lat
                     }
                 }
             ]
@@ -334,7 +379,7 @@
 
     var dataObj = {
         "actionID": "0000",
-        "actionMSG":new Date().toLocaleTimeString(),
+        "actionMSG": new Date().toLocaleTimeString(),
     }
     action_end(dataObj)
 
