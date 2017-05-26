@@ -19,7 +19,6 @@
 
         #myPageTop {
             position: absolute;
-            width: 25%;
             top: 5px;
             right: 10px;
             background: #fff none repeat scroll 0 0;
@@ -27,8 +26,8 @@
             margin: 10px auto;
             padding: 6px;
             font-family: "Microsoft Yahei", "微软雅黑", "Pinghei";
-            font-size: 9px;
-            color: red;
+            font-size: 12px;
+            width: 50%;
         }
 
         #myPageTop label {
@@ -38,11 +37,11 @@
         }
 
         #myPageTop input {
-            width: 80px;
+            width: 180px;
         }
 
         #myPageTop .column2 {
-            padding-left: 25px;
+            padding-left: 10px;
         }
 
         #log {
@@ -76,15 +75,42 @@
 <body>
     <div id="container" tabindex="0"></div>
     <div id="myPageTop">
-        <div id='log'>
-            <button type="button" onclick="clearLog()">  清空clearLog  </button>
-            <button type="button" onclick="addLog(11)">测试addLog</button>
-            <button type="button" onclick="alert('欢迎!')">点我!弹窗</button>
-            <p id="l">用来显示log:</p>
-        </div>
+        <table>
+            <tr>
+                <td class="column2">
+                    <button type="button" onclick="addLog('addLog')">发送信息到app</button>
+                    <button type="button" onclick="addLog('addLog')">接收app信息</button>
+                    <button type="button" onclick="addLog('addLog')">接收app信息</button>
+                </td>
+            </tr>
+            <tr>
+
+                <td class="column2">
+                    <input type="text" readonly="true" id="lnglat2">
+                    <input type="text" readonly="true" id="lnglat">
+                </td>
+            </tr>
+            <tr>
+
+                <td class="column2">
+                    <div id='log'>
+                        <button type="button" onclick="addLog('addLog')">addLog</button>
+                        <button type="button" onclick="clearLog()">clearLog</button>
+
+                        <button type="button" onclick="alert('欢迎!')">点我!</button>
+                        <p id="l">用来显示log:</p>
+                    </div>
+                </td>
+
+            </tr>
+
+
+        </table>
     </div>
     <div id='panel'></div>
+
     <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.3&key=84742c3f99a5f02d31f5f08bb763cb1b"></script>
+
     <script type="text/javascript" src="https://webapi.amap.com/demos/js/liteToolbar.js"></script>
 </body>
 
@@ -93,6 +119,7 @@
 
 <script type="text/javascript">
     var version = request("version");
+
 
 
     function request(paras) {
@@ -174,7 +201,7 @@
         }
     }
 
-    // 添加log信息
+    // 清空消息
     function clearLog() {
 
         x = document.getElementById("l")
@@ -182,11 +209,11 @@
 
     }
 
-
     //为地图注册click事件获取鼠标点击出的经纬度坐标
     var clickEventListener = map.on('click', function (e) {
         console.log(e);
         var strloaction = e.lnglat.getLng() + ',' + e.lnglat.getLat()
+        document.getElementById("lnglat2").value = "获取到的地址"
         document.getElementById("lnglat").value = strloaction
 
         addLog(strloaction);
@@ -255,16 +282,21 @@
         action_end(dataObj);
     }
 
+    WebViewBridge.onMessage = function (message) {
+        // alert('数据返回:' + message);
+        addLog('接收到的信息：\n\r');
+        addLog(message);
 
+    };
 
     function action_end(dataObj) {
         var data = JSON.stringify(dataObj);
 
         if (WebViewBridge) {
             WebViewBridge.send(data);
-            WebViewBridge.onMessage = function (message) {
-                alert('数据返回:' + message);
-            };
+            addLog('发送的信息：\n\r');
+            addLog(data);
+
         } else {
 
             addLog('不是ios和android手机');
