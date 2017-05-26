@@ -34,6 +34,7 @@
             color: #666666;
             font-weight: normal;
         }
+
         #myPageTop input {
             width: 80%;
         }
@@ -75,36 +76,25 @@
     <div id="container" tabindex="0"></div>
     <div id="myPageTop">
         <table>
-            <tr>
-                <td class="column2">
-                    <button type="button" onclick="addLog('addLog')">发送信息到app</button>
-                    <button type="button" onclick="addLog('addLog')">接收app信息</button>
-                    <button type="button" onclick="addLog('addLog')">接收app信息</button>
-                </td>
-            </tr>
-            <tr>
 
+            <tr>
                 <td class="column2">
                     <input type="text" readonly="true" id="lnglat2">
-
                 </td>
             </tr>
             <tr>
-
                 <td class="column2">
-
                     <input type="text" readonly="true" id="lnglat">
                 </td>
             </tr>
             <tr>
-
                 <td class="column2">
                     <div id='log'>
                         <button type="button" onclick="addLog('addLog')">addLog</button>
                         <button type="button" onclick="clearLog()">clearLog</button>
 
                         <button type="button" onclick="alert('欢迎!')">点我!</button>
-                        <p id="l">用来显示log:</p>
+                        <p id="l"></p>
                     </div>
                 </td>
 
@@ -171,7 +161,7 @@
 
 
 
-    var map, geolocation;
+    var map, geolocation, markerclick = null, currentPosition, walk;
 
     map = new AMap.Map('container', {
         resizeEnable: true,
@@ -205,10 +195,22 @@
             buttonPosition: 'RB'
         });
         map.addControl(geolocation);
-        geolocation.getCurrentPosition();
+
+        geolocation.getCurrentPosition(function (status, result) {
+            currentPosition = result.position;
+        });
+
         AMap.event.addListener(geolocation, 'complete', onComplete_geolocation);//返回定位信息
         // AMap.event.addListener(geolocation, 'error', onError);      //返回定位出错信息
     });
+
+    //点击规划路线
+    map.plugin(["AMap.Walking"], function () {
+        walk = new AMap.Walking({
+            map: map,
+        });
+
+    })
 
 
 
@@ -232,7 +234,7 @@
 
     //为地图注册click事件获取鼠标点击出的经纬度坐标
     var clickEventListener = map.on('click', function (e) {
-        console.log(e);
+        console.log("click:", e);
         var strloaction = e.lnglat.getLng() + ',' + e.lnglat.getLat()
         document.getElementById("lnglat2").value = "点击获取地址"
         document.getElementById("lnglat").value = strloaction
@@ -243,20 +245,21 @@
         loca.lng = e.lnglat.getLng()
         loca.lat = e.lnglat.getLat()
 
+
+        markerclick ? map.remove(markerclick) : '';
+
+        markerclick = null;
+        markerclick = new AMap.Marker({
+            position: [e.lnglat.getLng(), e.lnglat.getLat()],
+            offset: new AMap.Pixel(-16, -35),
+        });
+        markerclick.setMap(map);
+
+        walk.search(currentPosition, markerclick.getPosition());
+
         onComplete(loca);
 
     });
-    // var auto = new AMap.Autocomplete({
-    //     input: "tipinput"
-    // });
-    // AMap.event.addListener(auto, "select", select); //注册监听，当选中某条记录时会触发
-    // function select(e) {
-    //     if (e.poi && e.poi.location) {
-    //         map.setZoom(15);
-    //         map.setCenter(e.poi.location);
-
-    //     }
-    // }
 
 
 
