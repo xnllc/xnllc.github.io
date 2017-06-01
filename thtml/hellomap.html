@@ -18,8 +18,8 @@
         }
 
         #myPageTop {
-        /*测试数据显示*/
-            position: absolute;  
+            /*测试数据显示*/
+            position: absolute;
             top: 1px;
             right: 1px;
             background: #fff none repeat scroll 0 0;
@@ -47,7 +47,7 @@
         #log {
             color: red;
             font-size: 9px;
-             width: 80%;
+            width: 80%;
         }
 
         .info-title {
@@ -334,22 +334,10 @@
 
     function webonMessage() {
 
-
-        if (WebViewBridge) {
-            WebViewBridge.send(data);
-            addLog('发送的信息：\n\r');
-            addLog(data);
-
-            WebViewBridge.onMessage = function (message) {
-                addLog('接收到的信息：\n\r');
-                addLog(message);
-            };
-
-        } else {
-
-            addLog('不是ios和android手机');
-            addLog(data);
-        }
+        WebViewBridge.onMessage = function (message) {
+            addLog('接收到的信息：\n\r');
+            addLog(message);
+        };
 
     }
 
@@ -407,8 +395,5 @@
     //     "actionMSG": new Date().toLocaleTimeString(),
     // }
     // action_end(dataObj)
-
-
-
 
 </script>
