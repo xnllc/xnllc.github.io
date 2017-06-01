@@ -4,7 +4,10 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <meta name=viewport content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
+    <meta name=apple-mobile-web-app-title content=汽配龙>
+    <meta name=apple-mobile-web-app-capable content=yes>
+    <meta content="telephone=no" name=format-detection>
 
     <link rel="shortcut icon" href="http://7xkdq4.com1.z0.glb.clouddn.com/IMG_2100.JPG" mce_href="http://7xkdq4.com1.z0.glb.clouddn.com/IMG_2100.JPG"
         type="image/x-icon">
@@ -13,15 +16,17 @@
         html,
         #container {
             height: 100%;
+            width: 100%;
             margin: 0px;
             font: 12px Helvetica, 'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑', Arial;
         }
 
         #myPageTop {
             /*测试数据显示*/
-            position: absolute;
+            /*position: absolute;*/
             top: 1px;
-            right: 1px;
+            right: 10px;
+            left: 10px;
             background: #fff none repeat scroll 0 0;
             border: 1px solid #ccc;
             margin: 10px auto;
@@ -33,22 +38,23 @@
         #myPageTop label {
             margin: 0 2px 0 0;
             color: #666666;
-            font-weight: normal;
         }
 
         #myPageTop input {
-            width: 80%;
+            padding-left: 20px;
+            padding-right: 20px;
         }
 
         #myPageTop .column2 {
-            padding-left: 2px;
+            padding-left: 20px;
+            padding-right: 20px;
         }
 
         #log {
             color: red;
             font-size: 9px;
-            width: 80%;
         }
+
 
         .info-title {
             color: white;
@@ -76,7 +82,7 @@
 
 <body>
     <div id="container" tabindex="0"></div>
-    <div id="myPageTop">
+    <div id="myPageTop" class="view1 view2">
         <table>
 
             <tr>
@@ -132,6 +138,15 @@
         } else {
             return returnValue;
         }
+    }
+
+    var istest = 0;
+    istest = request('test')
+
+
+    if (istest == 1) {
+        document.getElementById("myPageTop").style.position = 'absolute'
+
     }
 
 
@@ -337,28 +352,6 @@
 
 
 
-    // 交互
-    if (WebViewBridge) {
-        WebViewBridge.onMessage = function (message) {
-            addLog(message);
-            var item = JSON.parse(message);
-            if (item.action == 'htmlgetlocation') {
-
-                htmlgetlocation(item.data)
-
-            } else if (item.action == 'app2js') {
-
-                if (item.data == 'getCurrentPosition') {
-
-                }
-
-            } else {
-                addLog(message);
-            }
-
-
-        };
-    }
 
 
     // htmlgetlocation app2html
@@ -444,9 +437,7 @@
                     if (item.data == 'clearlog') {
                         clearLog()
                     }
-                    if (item.data == 'clearlog') {
-                        clearLog()
-                    }
+
 
                 } else {
                     addLog(message);
