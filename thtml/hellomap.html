@@ -165,7 +165,7 @@
     map = new AMap.Map('container', {
         resizeEnable: true,
         zoom: 10,
-        center: [116.480983, 40.0958]
+        center: [116.680983, 40.1958]
     });
     var marker = new AMap.Marker({
         position: [116.480983, 39.989628]
@@ -196,6 +196,8 @@
         map.addControl(geolocation);
 
         geolocation.getCurrentPosition(function (status, result) {
+            addLog(JSON.stringify(result))
+            addLog(result.position)
             currentPosition = result.position;
         });
 
@@ -262,6 +264,9 @@
 
 
 
+
+
+
     // 交互
     if (WebViewBridge) {
         WebViewBridge.onMessage = function (message) {
@@ -289,6 +294,17 @@
     // htmlgetlocation app2html
     function htmlgetlocation(data) {
         addLog("htmlgetlocation" + data);
+
+        map = new AMap.Map('container', {
+            resizeEnable: true,
+            zoom: 10,
+            center: [data.longitude, data.latitude],
+        });
+
+        var cposition = data;
+        cposition.lng = data.longitude;
+        cposition.lat = data.latitude;
+        currentPosition = data;
     }
 
 
@@ -299,7 +315,7 @@
         var strloaction = e.position.getLng() + ',' + e.position.getLat()
         document.getElementById("lnglat2").value = e.formattedAddress
         document.getElementById("lnglat").value = strloaction
-        addLog(strloaction);
+        // addLog(strloaction);
 
         let loca = {}
         loca.lng = e.position.getLng()
@@ -352,6 +368,9 @@
 
                     if (item.data == 'getCurrentPosition') {
 
+                    }
+                    if (item.data == 'clearlog') {
+                        clearLog()
                     }
                     if (item.data == 'clearlog') {
                         clearLog()
