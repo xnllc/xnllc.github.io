@@ -134,7 +134,6 @@
     }
 
 
-
     //判断访问终端
     var browser = {
         versions: function () {
@@ -159,7 +158,6 @@
         language: (navigator.browserLanguage || navigator.language).toLowerCase()
     }
 
-    webonMessage()
 
 
     var map, geolocation, markerclick = null, currentPosition, walk;
@@ -332,14 +330,7 @@
 
 
 
-    function webonMessage() {
 
-        WebViewBridge.onMessage = function (message) {
-            addLog('接收到的信息：\n\r');
-            addLog(message);
-        };
-
-    }
 
     function action_end(dataObj) {
         var data = JSON.stringify(dataObj);
@@ -349,10 +340,28 @@
             addLog('发送的信息：\n\r');
             addLog(data);
 
-            // WebViewBridge.onMessage = function (message) {
-            //     addLog('接收到的信息：\n\r');
-            //     addLog(message);
-            // };
+            WebViewBridge.onMessage = function (message) {
+                addLog('接收到的信息：\n\r');
+                addLog(message);
+                var item = JSON.parse(message);
+                if (item.action == 'htmlgetlocation') {
+
+                    htmlgetlocation(item.data)
+
+                } else if (item.action == 'app2js') {
+
+                    if (item.data == 'getCurrentPosition') {
+
+                    }
+                    if (item.data == 'clearlog') {
+                        clearLog()
+                    }
+
+                } else {
+                    addLog(message);
+                }
+
+            };
 
         } else {
 
@@ -390,10 +399,10 @@
 
     }
 
-    // var dataObj = {
-    //     "actionID": "0000",
-    //     "actionMSG": new Date().toLocaleTimeString(),
-    // }
-    // action_end(dataObj)
+    var dataObj = {
+        "actionID": "0000",
+        "actionMSG": new Date().toLocaleTimeString(),
+    }
+    action_end(dataObj)
 
 </script>
