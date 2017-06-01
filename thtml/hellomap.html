@@ -23,7 +23,7 @@
 
         #myPageTop {
             /*测试数据显示*/
-            /*position: absolute;*/
+            position: '';
             top: 1px;
             right: 10px;
             left: 10px;
@@ -317,6 +317,12 @@
         x.innerHTML = "";
 
     }
+    // 清空消息
+    function openlog(isT) {
+
+        document.getElementById("myPageTop").style.position = (isT == 1)?'':'absolute'
+
+    }
 
     //为地图注册click事件获取鼠标点击出的经纬度坐标
     var clickEventListener = map.on('click', function (e) {
@@ -425,9 +431,14 @@
                 addLog('接收到的信息：\n\r');
                 addLog(message);
                 var item = JSON.parse(message);
+
                 if (item.action == 'htmlgetlocation') {
 
                     htmlgetlocation(item.data)
+
+                } else  if (item.action == 'openlog') {
+
+                    openlog(item.data)
 
                 } else if (item.action == 'app2js') {
 
@@ -437,6 +448,7 @@
                     if (item.data == 'clearlog') {
                         clearLog()
                     }
+                    
 
 
                 } else {
