@@ -134,6 +134,7 @@
     }
 
 
+
     //判断访问终端
     var browser = {
         versions: function () {
@@ -158,6 +159,7 @@
         language: (navigator.browserLanguage || navigator.language).toLowerCase()
     }
 
+    webonMessage()
 
 
     var map, geolocation, markerclick = null, currentPosition, walk;
@@ -330,8 +332,8 @@
 
 
 
-    function action_end(dataObj) {
-        var data = JSON.stringify(dataObj);
+    function webonMessage() {
+
 
         if (WebViewBridge) {
             WebViewBridge.send(data);
@@ -342,6 +344,27 @@
                 addLog('接收到的信息：\n\r');
                 addLog(message);
             };
+
+        } else {
+
+            addLog('不是ios和android手机');
+            addLog(data);
+        }
+
+    }
+
+    function action_end(dataObj) {
+        var data = JSON.stringify(dataObj);
+
+        if (WebViewBridge) {
+            WebViewBridge.send(data);
+            addLog('发送的信息：\n\r');
+            addLog(data);
+
+            // WebViewBridge.onMessage = function (message) {
+            //     addLog('接收到的信息：\n\r');
+            //     addLog(message);
+            // };
 
         } else {
 
@@ -379,10 +402,13 @@
 
     }
 
-    var dataObj = {
-        "actionID": "0000",
-        "actionMSG": new Date().toLocaleTimeString(),
-    }
-    action_end(dataObj)
+    // var dataObj = {
+    //     "actionID": "0000",
+    //     "actionMSG": new Date().toLocaleTimeString(),
+    // }
+    // action_end(dataObj)
+
+
+
 
 </script>
