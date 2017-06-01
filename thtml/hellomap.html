@@ -92,6 +92,7 @@
             <tr>
                 <td class="column2">
                     <div id='log'>
+                        <button type="button" onclick="fun_geocoder([116.396574, 39.992706])">解码地址</button>
                         <button type="button" onclick="clearLog()">关闭</button>
                         <button type="button" onclick="clearLog()">清空</button>
                         <p id="l"></p>
@@ -160,50 +161,67 @@
 
 
 
-    var map, geolocation, markerclick = null, currentPosition, walk;
+    var map, geolocation, markerclick = null, currentPosition, walk, geocoder;
+
 
     map = new AMap.Map('container', {
         resizeEnable: true,
         zoom: 10,
         center: [116.680983, 40.1958]
     });
-    var marker = new AMap.Marker({
-        position: [116.480983, 39.989628]
-    });
-    marker.setMap(map);
-    marker.on('click', function (e) {
-        infowindow.open(map, e.target.getPosition());
-    })
+    // var marker = new AMap.Marker({
+    //     position: [116.480983, 39.989628]
+    // });
+    // marker.setMap(map);
+    // marker.on('click', function (e) {
+    //     infowindow.open(map, e.target.getPosition());
+    // })
+
+
+    /*
+    
+    
+    
+    */
 
 
 
-
-    AMap.plugin(['AMap.ToolBar', 'AMap.Scale'], function () {
+    AMap.plugin(['AMap.ToolBar', 'AMap.Scale', 'AMap.Geocoder'], function () {
         var toolBar = new AMap.ToolBar();
         var scale = new AMap.Scale();
         map.addControl(toolBar);
         map.addControl(scale);
+
+        geocoder = new AMap.Geocoder({
+            radius: 5,
+            extensions: "base"
+        });
     })
 
-    map.plugin('AMap.Geolocation', function () {
-        geolocation = new AMap.Geolocation({
-            enableHighAccuracy: true,//是否使用高精度定位，默认:true
-            timeout: 10000,          //超过10秒后停止定位，默认：无穷大
-            buttonOffset: new AMap.Pixel(10, 20),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
-            zoomToAccuracy: true,      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
-            buttonPosition: 'LB'
-        });
-        map.addControl(geolocation);
+    // map.plugin('AMap.Geolocation', function () {
+    //     geolocation = new AMap.Geolocation({
+    //         enableHighAccuracy: true,//是否使用高精度定位，默认:true
+    //         timeout: 10000,          //超过10秒后停止定位，默认：无穷大
+    //         buttonOffset: new AMap.Pixel(10, 20),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+    //         zoomToAccuracy: true,      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+    //         buttonPosition: 'LB'
+    //     });
+    //     map.addControl(geolocation);
 
-        geolocation.getCurrentPosition(function (status, result) {
-            addLog(JSON.stringify(result))
-            addLog(result.position)
-            currentPosition = result.position;
-        });
+    //     // geolocation.getCurrentPosition(function (status, result) {
+    //     //     addLog(JSON.stringify(result))
+    //     //     addLog(result.position)
+    //     //     currentPosition = result.position;
+    //     // });
 
-        AMap.event.addListener(geolocation, 'complete', onComplete_geolocation);//返回定位信息
-        // AMap.event.addListener(geolocation, 'error', onError);      //返回定位出错信息
-    });
+    //     AMap.event.addListener(geolocation, 'complete', onComplete_geolocation);//返回定位信息
+    //     // AMap.event.addListener(geolocation, 'error', onError);      //返回定位出错信息
+    // });
+
+
+
+
+
 
     //点击规划路线
     map.plugin(["AMap.Walking"], function () {
@@ -212,6 +230,58 @@
         });
 
     })
+
+
+    let aaa = {
+        "info": "OK",
+        "regeocode": {
+            "addressComponent":
+            {
+                "citycode": "010", "adcode": "110105",
+                "businessAreas": [{
+                    "name": "亚运村", "id": "110105",
+                    "location":
+                    {
+                        "N": 39.993097244026124, "J": 116.40694570456196, "lng": 116.406946,
+                        "lat": 39.993097
+                    }
+                }, {
+                    "name": "奥运村", "id": "110105", "location":
+                    {
+                        "N": 40.01211199549549, "J": 116.39174022522513, "lng": 116.39174,
+                        "lat": 40.012112
+                    }
+                }], "neighborhoodType": "", "neighborhood": "",
+                "building": "国家体育场", "buildingType": "生活服务;生活服务场所;生活服务场所",
+                "street": "", "streetNumber": "", "province": "北京市", "city": "", "district":
+                "朝阳区", "township": "奥运村街道"
+            }, "formattedAddress": "北京市朝阳区奥运村街道国家体育场",
+            "roads": [], "crosses": [], "pois": []
+        }
+    }
+
+
+
+    // var lnglatXY = [116.396574, 39.992706]; //已知点坐标
+
+    function fun_geocoder(lnglatXY) {  //逆地理编码
+
+        geocoder.getAddress(lnglatXY, function (status, result) {
+            if (status === 'complete' && result.info === 'OK') {
+
+                var pos = result.regeocode.addressComponent.businessAreas[0].location
+                addLog(JSON.stringify(result))
+                addLog(pos)
+                currentPosition = pos;
+            }
+        });
+        var marker = new AMap.Marker({  //加点
+            map: map,
+            position: lnglatXY
+        });
+
+    }
+
 
 
 
@@ -301,10 +371,12 @@
             center: [data.longitude, data.latitude],
         });
 
-        var cposition = data;
-        cposition.lng = data.longitude;
-        cposition.lat = data.latitude;
-        currentPosition = data;
+        fun_geocoder([data.longitude, data.latitude])
+
+        var marker = new AMap.Marker({
+            position: [data.longitude, data.latitude],
+        });
+        marker.setMap(map);
     }
 
 
