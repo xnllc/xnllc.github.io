@@ -99,6 +99,7 @@
                 <td class="column2">
                     <div id='log'>
                         <button type="button" onclick="fun_geocoder([116.396574, 39.992706])">解码地址</button>
+                        <button type="button" onclick="testh2a([116.396574, 39.992706])">testh2a</button>
                         <button type="button" onclick="clearLog()">关闭</button>
                         <button type="button" onclick="clearLog()">清空</button>
                         <p id="l"></p>
@@ -184,6 +185,8 @@
         zoom: 10,
         center: [116.680983, 40.1958]
     });
+
+
     // var marker = new AMap.Marker({
     //     position: [116.480983, 39.989628]
     // });
@@ -320,7 +323,7 @@
     // 清空消息
     function openlog(isT) {
 
-        document.getElementById("myPageTop").style.position = (isT == 1)?'':'absolute'
+        document.getElementById("myPageTop").style.position = (isT == 1) ? '' : 'absolute'
 
     }
 
@@ -357,18 +360,19 @@
 
 
 
-
+function testh2a(dd){
+    var da = {};
+    da.longitude = dd[0];
+    da.latitude = dd[1];
+    htmlgetlocation(da)
+}
 
 
     // htmlgetlocation app2html
     function htmlgetlocation(data) {
         addLog("htmlgetlocation" + data);
 
-        map = new AMap.Map('container', {
-            resizeEnable: true,
-            zoom: 10,
-            center: [data.longitude, data.latitude],
-        });
+        map.setCenter = [data.longitude, data.latitude];
 
         fun_geocoder([data.longitude, data.latitude])
 
@@ -436,7 +440,7 @@
 
                     htmlgetlocation(item.data)
 
-                } else  if (item.action == 'openlog') {
+                } else if (item.action == 'openlog') {
 
                     openlog(item.data)
 
@@ -448,7 +452,7 @@
                     if (item.data == 'clearlog') {
                         clearLog()
                     }
-                    
+
 
 
                 } else {
