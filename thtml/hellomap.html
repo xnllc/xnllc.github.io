@@ -372,7 +372,7 @@
     function htmlgetlocation(data) {
         addLog("htmlgetlocation" + data);
 
-    
+
 
         // 设置缩放级别和中心点
         map.setZoomAndCenter(14, [data.longitude, data.latitude]);
@@ -505,6 +505,12 @@
     var dataObj = {
         "actionID": "0000",
         "actionMSG": new Date().toLocaleTimeString(),
+        "Data":
+        [
+            {
+                "action": "appgetlocation",
+            }
+        ]
     }
     action_end(dataObj)
 
