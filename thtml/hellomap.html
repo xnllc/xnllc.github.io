@@ -96,6 +96,24 @@
                 </td>
             </tr>
             <tr>
+                <td class="column2">
+                    <div id='log'>
+                        <button type="button" onclick="fun_geocoder([116.396574, 39.992706])">解码地址</button>
+                        <button type="button" onclick="test_appgetlocation()">获取app定位数据</button>
+                    </div>
+                </td>
+
+            </tr>
+            <tr>
+                <td class="column2">
+                    <div id='log'>
+                        <button type="button" onclick="test_appgetlocation2()">获取app连续定位数据</button>
+                        <button type="button" onclick="clearInterval(location2)">获取app连续定位关闭</button>
+                    </div>
+                </td>
+
+            </tr>
+            <tr>
  
                 <td class="column2">
                     <div id='log'>
@@ -104,18 +122,6 @@
                         <p id="l"></p>
                     </div>
                 </td>
-
-            </tr>
-            <tr>
-                <td class="column2">
-                    <div id='log'>
-                        <button type="button" onclick="fun_geocoder([116.396574, 39.992706])">解码地址</button>
-                        <button type="button" onclick="test_appgetlocation()">获取app定位数据</button>
-                        <button type="button" onclick="test_appgetlocation2()">获取app连续定位数据</button>
-                        <button type="button" onclick="location2=clearInterval(location2)">获取app连续定位关闭</button>
-                    </div>
-                </td>
-    
 
             </tr>
 
