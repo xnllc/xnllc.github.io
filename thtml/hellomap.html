@@ -360,19 +360,30 @@
 
 
 
-function testh2a(dd){
-    var da = {};
-    da.longitude = dd[0];
-    da.latitude = dd[1];
-    htmlgetlocation(da)
-}
+    function testh2a(dd) {
+        var da = {};
+        da.longitude = dd[0];
+        da.latitude = dd[1];
+        htmlgetlocation(da)
+    }
 
 
     // htmlgetlocation app2html
     function htmlgetlocation(data) {
         addLog("htmlgetlocation" + data);
 
-        map.setCenter = [data.longitude, data.latitude];
+        // map.center = [data.longitude, data.latitude];
+
+        // 设置缩放级别和中心点
+        map.setZoomAndCenter(14, [data.longitude, data.latitude]);
+
+
+        // map = new AMap.Map('container', {
+        //     resizeEnable: true,
+        //     zoom: 10,
+        //     center: [data.longitude, data.latitude]
+        // });
+
 
         fun_geocoder([data.longitude, data.latitude])
 
