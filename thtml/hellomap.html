@@ -372,20 +372,14 @@
     function htmlgetlocation(data) {
         addLog("htmlgetlocation" + data);
 
-        // map.center = [data.longitude, data.latitude];
+    
 
         // 设置缩放级别和中心点
         map.setZoomAndCenter(14, [data.longitude, data.latitude]);
 
+        currentPosition = [data.longitude, data.latitude];
 
-        // map = new AMap.Map('container', {
-        //     resizeEnable: true,
-        //     zoom: 10,
-        //     center: [data.longitude, data.latitude]
-        // });
-
-
-        fun_geocoder([data.longitude, data.latitude])
+        // fun_geocoder([data.longitude, data.latitude])
 
         var marker = new AMap.Marker({
             position: [data.longitude, data.latitude],
