@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>js交互测试</title>
+
+	<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.3.2.js"></script>
+	<script>
+
+
+
+
+		console.log('小程序测试');
+		console.log(window.__wxjs_environment);
+
+		function displayDate() {
+			document.getElementById("demo").innerHTML += '<br> :' + Date();
+		}
+
+
+
+		function addlog(text) {
+			document.getElementById("textlog").innerHTML += '<br> :' + text;
+		}
+
+		function navigateTo() {
+			addlog('navigateTo 测试  msgaftersale')
+
+			wx.miniProgram.navigateTo({ url: '/path/aftersale/msgaftersale' })
+		}
+
+		function navigateBack() {
+			addlog('navigateBack 测试')
+
+			wx.miniProgram.navigateBack();
+		}
+
+
+		function postMessage() {
+			addlog('postMessage 测试')
+
+			wx.miniProgram.postMessage({ data: 'foo', text: 'postMessage 测试' })
+		}
+
+
+		function getEnv() {
+			addlog('getEnv 测试')
+
+			wx.miniProgram.getEnv(function(res) { console.log(res.miniprogram)  })
+		}
+
+
+
+
+
+	</script>
+</head>
+
+<body>
+
+	<h1>JS 测试</h1>
+	<p id="demo">这是一个段落</p>
+	<p id="textlog">输出：</p>
+
+	<button type="button" onclick="displayDate()">显示日期</button>
+
+
+	<button type="button" onclick="navigateTo()"> navigateTo 跳转 </button>
+	<button type="button" onclick="navigateBack()"> navigateBack 回退 </button>
+	<button type="button" onclick="postMessage()"> postMessage 向小程序发送消息 </button>
+	<button type="button" onclick="getEnv()"> getEnv 获取当前环境</button>
+
+
+</body>
+
+</html>
