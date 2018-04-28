@@ -29,12 +29,12 @@ minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" />
 		function navigateTo() {
 			addlog('navigateTo 测试  msgaftersale')
 
-			wx.miniProgram.navigateTo({ url: 'pages/aftersale/msgaftersale' })
+			wx.miniProgram.navigateTo({ url: '../aftersale/msgaftersale' })
 		}
 		function navigateTo2() {
 			addlog('navigateTo2 测试 test')
 
-			wx.miniProgram.navigateTo({ url: "pages/test/test?test=" + 'js11111111' })
+			wx.miniProgram.navigateTo({ url: "../test/test?test=" + 'js11111111' })
 		}
 
 		function navigateBack() {
@@ -47,7 +47,7 @@ minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" />
 		function postMessage() {
 			addlog('postMessage 测试')
 
-			wx.miniProgram.postMessage({ data: 'foo', text: 'postMessage 测试' })
+			wx.miniProgram.postMessage({ data: 'foo', text: 'postMessage'})
 		}
 
 
